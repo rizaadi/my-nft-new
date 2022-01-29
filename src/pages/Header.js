@@ -35,7 +35,7 @@ const Header = () => {
     <div className="nav-right-hand-part">
       {/* header user profile */}
       <ul className="navigation-menu">
-        <Link className="menu-item"><li className="menu-link" to='/'>Home</li></Link>
+        {/* <Link className="menu-item"><li className="menu-link" to='/'>Home</li></Link> */}
       </ul>
       {/* header user profile */}
     </div>
