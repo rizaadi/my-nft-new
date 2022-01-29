@@ -25,9 +25,9 @@ const Home = () => {
                     <div className="fav-counter"><svg className="crumina-icon">
                       <use xlinkHref="#heart-icon" />
                     </svg><span className="count">22</span></div>
-                    <div className="featured-item-image"><Link to='/laporan'>
+                    <div className="featured-item-image"><a >
                     
-                      <img src={satu} alt="" /></Link>
+                      <img src={satu} alt="" /></a>
                     </div>
                     <div className="featured-item-info">
                       <div className="item-category social-graphics">
