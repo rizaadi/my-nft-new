@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import { Form, Home, Manage, Login, Register } from '../../pages';
+import { NewNft, Home, Manage, Login, Register } from '../../pages';
 import {Header, Footer} from '../../components'
 
 const Routes = () => {
@@ -18,7 +18,7 @@ const Routes = () => {
             <Register />
           </Route>
           <Route path = "/form">
-            <Form />
+            <NewNft />
           </Route>
           <Route path = "/">
             <Home />

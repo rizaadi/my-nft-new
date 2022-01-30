@@ -1,68 +1,35 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useMutation } from '@apollo/client';
 
-const Form = () => {
+import NftForm from '../../components/NftForm';
+import { NEW_NOTE } from '../../gql/mutation';
+import { GET_MY_NOTES, GET_NOTES } from '../gql/query';
+
+const NewNft = props => {
+  useEffect(() => {
+    // update the document title
+    document.title = 'New Note — Notedly';
+  });
+
+  const [data, { loading, error }] = useMutation(NEW_NOTE, {
+    // refetch the GET_NOTES and GET_MY_NOTES queries to update the cache
+    refetchQueries: [{ query: GET_MY_NOTES }, { query: GET_NOTES }],
+    onCompleted: data => {
+      // when complete, redirect the user to the note page
+      props.history.push(`note/${data.newNote.id}`);
+    }
+  });
+
   return (
-    <div className="primary-content-area container content-padding grid-small-sidebar-left">
-      <aside>
-        {/*    dashboard menu */}
-        <div className="user-db-menu-ds">
-          <ul className="profile-menu-ds">
-            <li><Link to="/"><svg className="crumina-icon">
-              <use xlinkHref="#dashboard-icon" />
-            </svg>Dashboard</Link></li>
-            <li><Link to="/form"><svg className="crumina-icon">
-              <use xlinkHref="#picture-icon" />
-            </svg>Upload Item</Link></li>
-            <li><Link to="/manage"><svg className="crumina-icon">
-              <use xlinkHref="#picture-icon" />
-            </svg>Manage Item</Link></li>
-            <li className="logout"><a href="%21.html#"><svg className="crumina-icon">
-              <use xlinkHref="#logout-icon" />
-            </svg>Log Out</a></li>
-          </ul>
-        </div>
-      </aside>
-      <div className="main-content-area">
-        <div className="page-title-section">
-          <h2><span className="gradient-text">Upload</span> Item</h2>
-        </div>
-        {/*  upload item form */}
-        <form className="cryptoki-form" id="upload-item-form">
-          <div className="upload-row">
-            <div className="upload-column">
-              <h5>Main Details</h5>
-              <div className="form-field">
-                <label htmlFor="item-name">Title</label>
-                <input type="text" id="item-name" />
-              </div>
-              <div className="form-field">
-                <label htmlFor="item-description">Description</label>
-                <textarea id="item-description" cols={30} rows={10} defaultValue={""} />
-              </div>
-              <input className="btn btn-wide gradient-background" type="submit" defaultValue="Upload Item" />
-            </div>
-            <div className="upload-column">
-              <h5>Upload</h5>
-              <div className="upload-container">
-                <div className="artwork-upload">
-                  <div className="label">Main File</div>
-                  <div className="upload-box"><svg className="crumina-icon">
-                    <use xlinkHref="#upload-icon" />
-                  </svg>
-                    <div className="upload-notice"> Max 120MB, PNG, JPEG, MP3, MP4</div>
-                    <button className="btn btn-normal btn-dark browse-btn waves-effect waves-button waves-float waves-light">Browse
-                      File</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
+    <React.Fragment>
+      {/* as the mutation is loading, display a loading message*/}
+      {loading && <p>Loading...</p>}
+      {/* if there is an error, display a error message*/}
+      {error && <p>Error saving the note</p>}
+      {/* the form component, passing the mutation data as a prop */}
+      <NftForm action={data} />
+    </React.Fragment>
+  );
+};
 
-  )
-}
-
-export default Form;
+export default NewNft;
